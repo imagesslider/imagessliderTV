@@ -121,8 +121,8 @@ const AlbumScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{uri: !!album ? album[0]?.url : image}}
+      <View
+        // source={{uri: !!album ? album[0]?.url : image}}
         style={styles.image}>
         <View style={styles.content}>
           <Image
@@ -145,7 +145,7 @@ const AlbumScreen = () => {
             />
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </View>
   );
 };

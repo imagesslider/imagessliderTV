@@ -7,6 +7,9 @@ import {
   IN_IMAGES,
   SELECTED_ID,
   SET_IS_FOCUSED_MENU,
+  SET_USER_IS_LOGGED,
+  USER_IS_LOGGED_TRUE,
+  SET_CURRENT_USER,
 } from '../actions/actionsApp';
 
 const initalStore = {
@@ -18,6 +21,9 @@ const initalStore = {
   inImages: false,
   selectedId: null,
   isFocusedMenu: false,
+  userIsLogged: null,
+  userIsLoggedTrue: false,
+  currentUser: null,
 };
 
 export const reducerApp = (state = initalStore, action) => {
@@ -62,6 +68,21 @@ export const reducerApp = (state = initalStore, action) => {
       return {
         ...state,
         isFocusedMenu: action.isFocusedMenu,
+      };
+    case SET_USER_IS_LOGGED:
+      return {
+        ...state,
+        userIsLogged: action.userIsLogged,
+      };
+    case USER_IS_LOGGED_TRUE:
+      return {
+        ...state,
+        userIsLoggedTrue: action.userIsLoggedTrue,
+      };
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: action.currentUser,
       };
     default:
       return state;

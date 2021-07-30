@@ -12,7 +12,10 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlbumsFirebaseAction} from '../redux/actions/actionsFirebase';
-import {setIsFocusedMenuAction, setAlbums} from '../redux/actions/actionsApp';
+import {
+  setIsFocusedMenuAction,
+  selectedIdAction,
+} from '../redux/actions/actionsApp';
 
 const image = require('../../img/logoImagesSlider.png');
 
@@ -85,19 +88,18 @@ const AlbumsScreen = () => {
   };
   //renderItem />
 
-  //useEffect
   useEffect(() => {
-    const loadAlbums = async () => {
-      setIsLoading(true);
+    const unsubscribe = navigation.addListener('focus', async () => {
+      // The screen is focused
+      // Call any action
+      await dispatch(selectedIdAction('albums'));
+      await setIsLoading(true);
       await dispatch(setAlbumsFirebaseAction());
-      setIsLoading(false);
-    };
-    loadAlbums();
-
-    return () => {
-      dispatch(setAlbums([]));
-    };
-  }, [dispatch]);
+      await setIsLoading(false);
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   //isLoading
   if (isLoading) {
@@ -110,8 +112,8 @@ const AlbumsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{uri: !!albums ? albums[0]?.images[0]?.url : image}}
+      <View
+        // source={{uri: !!albums ? albums[0]?.images[0]?.url : image}}
         style={styles.image}>
         <View style={styles.content}>
           <Image
@@ -120,6 +122,18 @@ const AlbumsScreen = () => {
             width={52}
             height={33}
           />
+          <Text style={styles.albums_title_info}>
+            Turn your smart TV into Art gallery. Smart TV application turns your
+            TV into the art gallery. Using the free app, you can switch your big
+            blank screen into your personal photo album. The web site is
+            compatible with all Smart tv devices. Also, it is available at any
+            other device such as computer desktop, Laptop, Tablet or mobile
+            phone. Open the site and a huge collection of HD images and videos
+            will be at your disposal. Over 1000 high-quality images from various
+            themes in the library are free for use. Transform your place into
+            digital art and add some color in your life. You can also run your
+            collection connecting with your account.
+          </Text>
           <Text style={styles.titleAlbums}>Albums</Text>
           <View style={styles.flatList}>
             <FlatList
@@ -132,7 +146,7 @@ const AlbumsScreen = () => {
             />
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </View>
   );
 };
@@ -188,6 +202,16 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
     textTransform: 'capitalize',
     fontWeight: '800',
+  },
+  albums_title_info: {
+    fontSize: 14,
+    textShadowColor: 'rgba(0, 0, 0, 0.9)',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 1,
+    fontWeight: '800',
+    color: '#fff',
+    paddingLeft: 60,
+    paddingRight: 20,
   },
   imgLogo: {
     position: 'absolute',

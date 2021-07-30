@@ -21,9 +21,42 @@ const DATA = [
     iconName: 'albums-outline',
   },
   {
-    id: 'videos',
-    title: 'videos',
-    iconName: 'videocam-outline',
+    id: 'images private',
+    title: 'images private',
+    iconName: 'images-sharp',
+  },
+  {
+    id: 'collections private',
+    title: 'collections private',
+    iconName: 'albums-sharp',
+  },
+  {
+    id: 'signin',
+    title: 'sign in',
+    iconName: 'log-in-sharp',
+  },
+];
+
+const DATA_LOGIN = [
+  {
+    id: 'albums',
+    title: 'albums',
+    iconName: 'albums-outline',
+  },
+  {
+    id: 'images private',
+    title: 'images private',
+    iconName: 'images-sharp',
+  },
+  {
+    id: 'collections private',
+    title: 'collections private',
+    iconName: 'albums-sharp',
+  },
+  {
+    id: 'user profile',
+    title: 'user profile',
+    iconName: 'person-circle-outline',
   },
 ];
 
@@ -94,6 +127,8 @@ const MenuNavigation = () => {
   const selectedId = useSelector(selectSelectedId);
   const selectIsFocusedMenu = state => state.appState.isFocusedMenu;
   const isFocusedMenu = useSelector(selectIsFocusedMenu);
+  const selectUserIsLogged = state => state.appState.userIsLogged;
+  const userIsLogged = useSelector(selectUserIsLogged);
 
   //actions redux
   const dispatch = useDispatch();
@@ -111,8 +146,8 @@ const MenuNavigation = () => {
 
   //useEffect
   useEffect(() => {
-    dispatch(selectedIdAction('albums'));
-  }, []);
+    dispatch(selectedIdAction(selectedId));
+  }, [selectedId]);
 
   return (
     <View
@@ -124,7 +159,7 @@ const MenuNavigation = () => {
       ]}>
       <View>
         <FlatList
-          data={DATA}
+          data={userIsLogged !== null ? DATA_LOGIN : DATA}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           extraData={selectedId}
@@ -139,6 +174,8 @@ export default MenuNavigation;
 const styles = StyleSheet.create({
   menu: {
     backgroundColor: '#000',
+    borderRightColor: '#ffc107',
+    borderEndWidth: 1,
   },
   title: {
     textTransform: 'capitalize',
