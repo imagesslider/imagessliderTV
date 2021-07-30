@@ -11,7 +11,7 @@ const AlbumsNavigation = () => {
   return (
     <View style={{flex: 1, backgroundColor: '#000'}}>
       <Stack.Navigator
-        initialRouteName="albumsScreen"
+        // initialRouteName="albumsScreen"
         screenOptions={{
           headerShown: false,
         }}>

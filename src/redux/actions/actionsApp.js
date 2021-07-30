@@ -63,3 +63,21 @@ export const setIsFocusedMenuAction = isFocusedMenu => ({
   type: SET_IS_FOCUSED_MENU,
   isFocusedMenu: isFocusedMenu,
 });
+
+export const USER_IS_LOGGED_TRUE = 'USER_IS_LOGGED_TRUE';
+export const setUserIsLoggedTrueAction = userIsLoggedTrue => ({
+  type: USER_IS_LOGGED_TRUE,
+  userIsLoggedTrue: userIsLoggedTrue,
+});
+
+export const SET_USER_IS_LOGGED = 'SET_USER_IS_LOGGED';
+export const setUserIsLoggedAction = userIsLogged => ({
+  type: SET_USER_IS_LOGGED,
+  userIsLogged: userIsLogged,
+});
+
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const setCurrentUserAction = currentUser => ({
+  type: SET_CURRENT_USER,
+  currentUser: currentUser,
+});

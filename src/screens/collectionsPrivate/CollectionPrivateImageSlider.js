@@ -1,3 +1,4 @@
+//CollectionPrivateImageSlider
 import React, {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
@@ -9,8 +10,8 @@ import {
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {inImagesAction, setImages} from '../redux/actions/actionsApp';
-import {setImagesFirebaseAction} from '../redux/actions/actionsFirebase';
+import {inImagesAction, setImages} from '../../redux/actions/actionsApp';
+import firestore from '@react-native-firebase/firestore';
 import {useKeepAwake} from '@sayem314/react-native-keep-awake';
 
 const {width, height} = Dimensions.get('screen');
@@ -39,7 +40,7 @@ const Item = ({item}) => {
   );
 };
 
-const ImagesScreen = () => {
+const CollectionPrivateImageSlider = () => {
   //useKeepAwake
   useKeepAwake();
 
@@ -51,14 +52,18 @@ const ImagesScreen = () => {
   const flatListIndex = useRef();
 
   //state redux
-  const selectImages = state => state.appState.images;
-  const images = useSelector(selectImages);
+  const selectUserIsLogged = state => state.appState.userIsLogged;
+  const userIsLogged = useSelector(selectUserIsLogged);
 
   //actions redux
   const dispatch = useDispatch();
 
   //route
   const route = useRoute();
+
+  //state redux
+  const selectImages = state => state.appState.images;
+  const images = useSelector(selectImages);
 
   //scrollToIndex
   const scrollToIndex = index => {
@@ -89,18 +94,40 @@ const ImagesScreen = () => {
     };
   }, [dispatch]);
 
+  const fetchCollectionPrivateImages = () => {
+    const unsubscribe = firestore()
+      .collection('collections_private')
+      .doc(userIsLogged?.user_id)
+      .collection('collections_private')
+      .doc(route?.params?.collectionPrivateId)
+      .collection('images')
+      .onSnapshot((snapshot, error) => {
+        if (error) {
+          console.log(error);
+        } else if (snapshot) {
+          let images = snapshot.docs.map(doc => {
+            const data = doc.data();
+            const id = doc.id;
+            return {id, ...data};
+          });
+          dispatch(setImages(images));
+        }
+        setIsLoading(false);
+      });
+    return unsubscribe;
+  };
+
   useEffect(() => {
     const loadImages = async () => {
-      setIsLoading(true);
-      await dispatch(setImagesFirebaseAction(route?.params?.albumId));
-      setIsLoading(false);
-      setActiveIndex(route?.params?.indexImage);
+      await setIsLoading(true);
+      await fetchCollectionPrivateImages();
+      await setActiveIndex(route?.params?.indexImage);
     };
     loadImages();
     return () => {
       dispatch(setImages([]));
     };
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     let sliderIntervalTIme;
@@ -162,7 +189,7 @@ const ImagesScreen = () => {
   );
 };
 
-export default ImagesScreen;
+export default CollectionPrivateImageSlider;
 
 const styles = StyleSheet.create({
   item: {
