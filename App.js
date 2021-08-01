@@ -6,7 +6,6 @@ import allReducer from './src/redux/reducers/index';
 import thunk from 'redux-thunk';
 
 import SplashScreen from 'react-native-splash-screen';
-import codePush from 'react-native-code-push';
 
 const composeEnhancers =
   (process.env.NODE_ENV !== 'production' &&
@@ -14,17 +13,9 @@ const composeEnhancers =
   compose;
 const store = createStore(allReducer, composeEnhancers(applyMiddleware(thunk)));
 
-let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_START};
-
 const App = () => {
   //useEffect
   useEffect(() => {
-    //codepush
-    codePush.sync({
-      updateDialog: true,
-      installMode: codePush.InstallMode.IMMEDIATE,
-    });
-
     //splashScreen
     const splashScreen = async () => {
       const splasscreen = setTimeout(() => SplashScreen.hide(), 200);
@@ -43,4 +34,4 @@ const App = () => {
   );
 };
 
-export default codePush(codePushOptions)(App);
+export default App;
