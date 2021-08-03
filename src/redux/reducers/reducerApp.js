@@ -10,6 +10,7 @@ import {
   SET_USER_IS_LOGGED,
   USER_IS_LOGGED_TRUE,
   SET_CURRENT_USER,
+  SET_INTERVAL_TIME,
 } from '../actions/actionsApp';
 
 const initalStore = {
@@ -24,6 +25,7 @@ const initalStore = {
   userIsLogged: null,
   userIsLoggedTrue: false,
   currentUser: null,
+  intervalTime: 20000,
 };
 
 export const reducerApp = (state = initalStore, action) => {
@@ -83,6 +85,11 @@ export const reducerApp = (state = initalStore, action) => {
       return {
         ...state,
         currentUser: action.currentUser,
+      };
+    case SET_INTERVAL_TIME:
+      return {
+        ...state,
+        intervalTime: action.intervalTime,
       };
     default:
       return state;

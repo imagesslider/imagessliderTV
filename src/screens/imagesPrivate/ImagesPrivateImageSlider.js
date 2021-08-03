@@ -53,6 +53,8 @@ const ImagesPrivateImageSlider = () => {
   //state redux
   const selectUserIsLogged = state => state.appState.userIsLogged;
   const userIsLogged = useSelector(selectUserIsLogged);
+  const selectIntervalTime = state => state.appState.intervalTime;
+  const intervalTime = useSelector(selectIntervalTime);
 
   //actions redux
   const dispatch = useDispatch();
@@ -128,7 +130,7 @@ const ImagesPrivateImageSlider = () => {
 
   useEffect(() => {
     let sliderIntervalTIme;
-    sliderIntervalTIme = setInterval(onScrollNext, 30000);
+    sliderIntervalTIme = setInterval(onScrollNext, intervalTime);
 
     return () => {
       clearInterval(sliderIntervalTIme);

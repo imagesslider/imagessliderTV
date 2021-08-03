@@ -9,6 +9,7 @@ import CollectionsPrivateNavigation from './CollectionsPrivateNavigation';
 import {setUserIsLoggedAction} from '../redux/actions/actionsApp';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SettingsNavigation from './SettingsNavigation';
 
 const Stack = createStackNavigator();
 
@@ -68,6 +69,7 @@ const ContentNavigation = () => {
             name="collections private"
             component={CollectionsPrivateNavigation}
           />
+          <Stack.Screen name="settings" component={SettingsNavigation} />
           <Stack.Screen name="user profile" component={UserProfileScreen} />
         </>
       ) : (
@@ -81,6 +83,7 @@ const ContentNavigation = () => {
             name="collections private"
             component={CollectionsPrivateNavigation}
           />
+          <Stack.Screen name="settings" component={SettingsNavigation} />
           <Stack.Screen name="sign in" component={SigninScreen} />
         </>
       )}

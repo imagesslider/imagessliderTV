@@ -3,6 +3,7 @@ import {Image, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   selectedIdAction,
+  setIsFocusedMenuAction,
   setUserIsLoggedAction,
 } from '../redux/actions/actionsApp';
 import auth from '@react-native-firebase/auth';
@@ -26,6 +27,7 @@ const UserProfileScreen = () => {
   //onFocus
   const onFocus = () => {
     setIsFocused(true);
+    dispatch(setIsFocusedMenuAction(false));
   };
 
   //onBlur
