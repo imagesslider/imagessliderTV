@@ -81,3 +81,9 @@ export const setCurrentUserAction = currentUser => ({
   type: SET_CURRENT_USER,
   currentUser: currentUser,
 });
+
+export const SET_INTERVAL_TIME = 'SET_INTERVAL_TIME';
+export const setIntervalTimeAction = intervalTime => ({
+  type: SET_INTERVAL_TIME,
+  intervalTime: intervalTime,
+});

@@ -32,7 +32,10 @@ const Item = ({item}) => {
         source={{
           uri: `${item.url}`,
         }}
-        style={{width: '100%', height: '100%'}}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
         resizeMode={'center'}
       />
     </View>
@@ -53,6 +56,8 @@ const ImagesScreen = () => {
   //state redux
   const selectImages = state => state.appState.images;
   const images = useSelector(selectImages);
+  const selectIntervalTime = state => state.appState.intervalTime;
+  const intervalTime = useSelector(selectIntervalTime);
 
   //actions redux
   const dispatch = useDispatch();
@@ -104,7 +109,7 @@ const ImagesScreen = () => {
 
   useEffect(() => {
     let sliderIntervalTIme;
-    sliderIntervalTIme = setInterval(onScrollNext, 30000);
+    sliderIntervalTIme = setInterval(onScrollNext, intervalTime);
 
     return () => {
       clearInterval(sliderIntervalTIme);

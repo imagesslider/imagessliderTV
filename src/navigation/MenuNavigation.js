@@ -31,6 +31,11 @@ const DATA = [
     iconName: 'albums-sharp',
   },
   {
+    id: 'settings',
+    title: 'settings',
+    iconName: 'settings-sharp',
+  },
+  {
     id: 'signin',
     title: 'sign in',
     iconName: 'log-in-sharp',
@@ -52,6 +57,11 @@ const DATA_LOGIN = [
     id: 'collections private',
     title: 'collections private',
     iconName: 'albums-sharp',
+  },
+  {
+    id: 'settings',
+    title: 'settings',
+    iconName: 'settings-sharp',
   },
   {
     id: 'user profile',
@@ -173,9 +183,14 @@ export default MenuNavigation;
 
 const styles = StyleSheet.create({
   menu: {
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderRightColor: '#ffc107',
-    borderEndWidth: 1,
+    borderEndWidth: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    zIndex: 1,
   },
   title: {
     textTransform: 'capitalize',
