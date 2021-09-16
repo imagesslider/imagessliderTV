@@ -7,9 +7,10 @@ import {
   TextInput,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {selectedIdAction} from '../redux/actions/actionsApp';
+import {selectedIdAction, inImagesAction} from '../redux/actions/actionsApp';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 
@@ -21,7 +22,6 @@ const SigninScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState();
-  const [isFocus, setIsFocused] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   //actions redux
@@ -46,16 +46,41 @@ const SigninScreen = () => {
     }
   };
 
+  const onSubmitEditingEmail = () => {
+    return inputPasswordRef.current.focus();
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
       // Call any action
       dispatch(selectedIdAction('sign in'));
+      dispatch(inImagesAction(true));
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      // The screen is focused
+      // Call any action
+      dispatch(inImagesAction(false));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  //isLoading
+  if (isLoading) {
+    return (
+      <View style={styles.isLoading}>
+        <ActivityIndicator size="large" color="#ffc107" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -89,6 +114,9 @@ const SigninScreen = () => {
             autoFocus={true}
             style={styles.textInput}
             onChangeText={email => setEmail(email)}
+            returnKeyType="next"
+            onSubmitEditing={() => onSubmitEditingEmail()}
+            blurOnSubmit={false}
           />
         </TouchableHighlight>
         <TouchableHighlight
@@ -107,24 +135,9 @@ const SigninScreen = () => {
             secureTextEntry={true}
             style={styles.textInput}
             onChangeText={password => setPassword(password)}
+            returnKeyType="done"
+            onSubmitEditing={() => onPressSubmit()}
           />
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={[
-            styles.signIn_button_submit,
-            {
-              color: isFocus ? '#ffc107' : '#fff',
-              borderColor: isFocus ? '#ffc107' : '#fff',
-            },
-          ]}
-          onPress={onPressSubmit}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}>
-          <View style={styles.signIn_button_submit_view_text}>
-            <Text style={{color: isFocus ? '#ffc107' : '#fff'}}>
-              {isLoading ? 'Loading...' : 'Submit'}
-            </Text>
-          </View>
         </TouchableHighlight>
         <View>
           <Text style={styles.signIn_info}>
@@ -195,5 +208,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
+  },
+  isLoading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
   },
 });

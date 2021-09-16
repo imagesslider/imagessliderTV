@@ -22,14 +22,11 @@ const SettingsScreen = () => {
   //state
   const [intervalTimeInput, setIntervalTimeInput] = useState(null);
   const [error, setError] = useState();
-  const [isFocus, setIsFocused] = useState(null);
   const [success, setSuccess] = useState();
 
   //state redux
   const selectIntervalTime = state => state.appState.intervalTime;
   const intervalTime = useSelector(selectIntervalTime);
-
-  console.log('intervalTime', intervalTime);
 
   //actions redux
   const dispatch = useDispatch();
@@ -105,26 +102,13 @@ const SettingsScreen = () => {
             autoCorrect={false}
             autoFocus={true}
             keyboardType="numeric"
+            returnKeyType="done"
+            onSubmitEditing={() => onPressSubmit()}
             style={styles.textInput}
             onChangeText={intervalTimeInput =>
               setIntervalTimeInput(intervalTimeInput)
             }
           />
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={[
-            styles.settings_button_submit,
-            {
-              color: isFocus ? '#ffc107' : '#fff',
-              borderColor: isFocus ? '#ffc107' : '#fff',
-            },
-          ]}
-          onPress={onPressSubmit}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}>
-          <View style={styles.settings_button_submit_view_text}>
-            <Text style={{color: isFocus ? '#ffc107' : '#fff'}}>Submit</Text>
-          </View>
         </TouchableHighlight>
       </ScrollView>
     </View>
